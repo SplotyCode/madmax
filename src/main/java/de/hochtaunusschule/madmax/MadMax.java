@@ -1,5 +1,11 @@
 package de.hochtaunusschule.madmax;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.AllArgsConstructor;
 
 /**
@@ -65,7 +71,20 @@ public class MadMax implements HexBinary {
         return null;
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    private static final Logger LOGGER = Logger.getLogger(MadMax.class.getName());
+
+    public static void main(String[] args) {
+        if (args.length == 1) {
+            File file = new File(args[0]);
+            try {
+                List<String> lines = Files.readAllLines(file.toPath());
+                args = new String[] {lines.get(0), lines.get(1)};
+            } catch (IOException | IndexOutOfBoundsException e) {
+                LOGGER.log(Level.SEVERE, "Es gab einen Fehler beim einlesen der input datei "
+                    + file.getName() + ": " + e.getMessage(), e);
+                return;
+            }
+        }
         if (args.length != 2) {
             System.out.println("Illegal usage: Use <hex number> <max moves>");
             return;
