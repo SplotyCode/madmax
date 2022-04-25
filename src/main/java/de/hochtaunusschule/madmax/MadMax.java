@@ -64,7 +64,7 @@ public class MadMax implements HexBinary {
         }
         int current = input[offset];
         int childRemaining = bladesLeft - HexCache.letterSize(current);
-        for (int upgrade = DIGITS.length - 1; upgrade >= 0; upgrade--) {
+        for (int upgrade = DIGITS.length - 1; upgrade >= 0; upgrade--) { /* from f to 0 */
             HexMove.Move costs = HexCache.move(current, upgrade);
             int[] res = solve(
                 input,
