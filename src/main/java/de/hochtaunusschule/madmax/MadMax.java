@@ -34,7 +34,8 @@ public class MadMax implements HexBinary {
     /* reserved more than we have blades left (on the right side) as we need at least 2 blades to construct a one */
     private static boolean checkReservedMoreThenOffer(int reserved, int bladesLeft, int length) {
         int minBlades = length * 2;
-        return reserved > 0 && bladesLeft - reserved < minBlades;
+        return bladesLeft - minBlades < reserved
+            || (reserved < 0 && bladesLeft - Math.abs(reserved) < minBlades);
     }
 
     public static int[] solve(int[] input, int maxSteps) {
