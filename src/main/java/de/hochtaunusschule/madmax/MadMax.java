@@ -34,7 +34,7 @@ public class MadMax implements HexBinary {
     /* reserved more than we have blades left (on the right side) as we need at least 2 blades to construct a one */
     private static boolean checkReservedMoreThenOffer(int reserved, int bladesLeft, int length) {
         int minBlades = length * 2;
-        return reserved < 0 && bladesLeft - Math.abs(reserved) < minBlades;
+        return reserved > 0 && bladesLeft - reserved < minBlades;
     }
 
     public static int[] solve(int[] input, int maxSteps) {
@@ -49,12 +49,8 @@ public class MadMax implements HexBinary {
         if (moves < 0) { /* moves exhausted */
             return null;
         }
-        if (input.length - offset == 0) { /* end of tree */
-            /* check that we have no reserved blades left */
-            return reserved == 0 ? input : null;
-        }
-        if (moves == 0) { /* we are not in the tail but have no moves left */
-            /* if we have no reserved/left over blades we are fine */
+        if (input.length - offset == 0 || moves == 0) { /* end of tree or no moves left*/
+            /* if we have no reserved/left over blades we are fine (right numbers may stay untouched) */
             return reserved == 0 ? input : null;
         }
         if (checkEnoughMovesForOverflow(reserved, moves)

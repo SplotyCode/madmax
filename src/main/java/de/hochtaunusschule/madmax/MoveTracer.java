@@ -4,6 +4,26 @@ package de.hochtaunusschule.madmax;
  * @author David (_Esel)
  */
 public class MoveTracer {
+    public static void displayPath(int[] from, int[] to) {
+        int[] display = from.clone();
+        System.out.println("Input: ");
+        HexBinary.print(display, System.out);
+        int move = 0;
+        while (nextMove(from, to, display)) {
+            System.out.println("Move #" + ++move);
+            HexBinary.print(display, System.out);
+        }
+    }
+
+    private static boolean nextMove(int[] from, int[] to, int[] display) {
+        boolean remove = findRemove(from, to, display);
+        boolean add = findAdd(from, to, display);
+        if (remove != add) {
+            throw new IllegalArgumentException("unmatch");
+        }
+        return remove;
+    }
+
     private static boolean findRemove(int[] from, int[] to, int[] display) {
         for (int i = 0; i < from.length; i++) {
             for (int bit : HexBinary.BITS) {
@@ -28,30 +48,5 @@ public class MoveTracer {
             }
         }
         return false;
-    }
-
-    private static boolean nextMove(int[] from, int[] to, int[] display) {
-        boolean remove = findRemove(from, to, display);
-        boolean add = findAdd(from, to, display);
-        if (remove != add) {
-            throw new IllegalArgumentException("unmatch");
-        }
-        return remove;
-    }
-
-    public static void displayPath(int[] from, int[] to) {
-        System.out.println();
-        System.out.println();
-        int[] display = from.clone();
-        System.out.println("Input: ");
-        HexBinary.print(display, System.out);
-        int move = 0;
-        while (nextMove(from, to, display)) {
-            System.out.println();
-            System.out.println("Move #" + ++move);
-            HexBinary.print(display, System.out);
-        }
-        System.out.println();
-        System.out.println();
     }
 }

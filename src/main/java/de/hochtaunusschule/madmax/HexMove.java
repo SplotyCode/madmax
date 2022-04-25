@@ -42,6 +42,7 @@ public interface HexMove extends HexBinary {
         return new Move(add, add - remove);
     }
 
+    /* compares one number to another how many blades were added/removed */
     static Change change(int current, int desired) {
         int remove = 0;
         int add = 0;
