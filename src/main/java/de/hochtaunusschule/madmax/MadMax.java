@@ -89,9 +89,14 @@ public class MadMax implements HexBinary {
             System.out.println("Illegal usage: Use <hex number> <max moves>");
             return;
         }
+        int maxMoves = Integer.parseInt(args[1]);
+        int[] from = HexBinary.extractHex(args[0]);
+        System.out.println("input: " + args[0] + " in <=" + maxMoves + " moves");
         long start = System.currentTimeMillis();
-        solve(args[0], Integer.parseInt(args[1]));
-        System.out.println((System.currentTimeMillis() - start));
-
+        int[] result = solve(from.clone(), maxMoves);
+        String asString = HexBinary.toHexString(result);
+        System.out.println("result is: " + asString);
+        System.out.println("Took " + (System.currentTimeMillis() - start) + "ms");
+        MoveTracer.displayPath(HexBinary.hexToBinary(from), HexBinary.hexToBinary(result.clone()));
     }
 }

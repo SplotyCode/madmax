@@ -11,9 +11,16 @@ public class HexBinaryTest {
     void test() {
         System.out.println(HexBinary.letterSize(HexDisplay.DIGITS[0]));
         System.out.println(HexCache.totalLetterSize(HexBinary.extractHex("D24")));
-        System.out.println(HexMove.change(HexBinary.DIGITS[13], HexBinary.DIGITS[14]));
-        System.out.println(HexMove.move(HexBinary.DIGITS[13], HexBinary.DIGITS[14]));
+        //System.out.println(HexMove.change(HexBinary.DIGITS[13], HexBinary.DIGITS[14]));
+        System.out.println(HexMove.change(HexBinary.DIGITS[1], HexBinary.DIGITS[2]));
+        //System.out.println(HexMove.move(HexBinary.DIGITS[13], HexBinary.DIGITS[14]));
+        System.out.println(HexMove.move(HexBinary.DIGITS[1], HexBinary.DIGITS[2]));
         System.out.println(HexCache.move(13, 14));
+    }
+
+    @Test
+    void testPrint() {
+        HexBinary.print(HexDisplay.DIGITS, System.out);
     }
 
     @Test
