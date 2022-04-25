@@ -20,6 +20,23 @@ public class MadMax implements HexBinary {
         return asString;
     }
 
+    /* we can not for-fill overflow as the moves would not be enough  */
+    private static boolean checkEnoughMovesForOverflow(int reserved, int moves) {
+        return reserved < 0 && Math.abs(reserved) > moves;
+    }
+
+    /* can can't put more than we have space left */
+    private static boolean checkSpaceForOverflow(int reserved, int bladesLeft, int length) {
+        int maxBlades = length * 7;
+        return reserved < 0 && Math.abs(reserved) > maxBlades - bladesLeft;
+    }
+
+    /* reserved more than we have blades left (on the right side) as we need at least 2 blades to construct a one */
+    private static boolean checkReservedMoreThenOffer(int reserved, int bladesLeft, int length) {
+        int minBlades = length * 2;
+        return reserved < 0 && bladesLeft - Math.abs(reserved) < minBlades;
+    }
+
     public static int[] solve(int[] input, int maxSteps) {
         if (maxSteps < 0) {
             throw new IllegalArgumentException("maxSteps might not be negative");
@@ -40,18 +57,9 @@ public class MadMax implements HexBinary {
             /* if we have no reserved/left over blades we are fine */
             return reserved == 0 ? input : null;
         }
-        int maxBlades = length * 7;
-        if (reserved < 0 && Math.abs(reserved) > maxBlades - bladesLeft) { /* put more than place */
-            return null;
-        }
-        if (reserved < 0 && Math.abs(reserved) > moves) { /* we can not for-fill reserve as the moves would not be enough  */
-            return null;
-        }
-        int minBlades = length * 2;
-        if (bladesLeft < reserved || bladesLeft - minBlades < reserved) { /* reserve more than we have left */
-            return null;
-        }
-        if (reserved < 0 && bladesLeft - Math.abs(reserved) < minBlades) { /* when serving reserves we could not  */
+        if (checkEnoughMovesForOverflow(reserved, moves)
+            || checkSpaceForOverflow(reserved, bladesLeft, length)
+            || checkReservedMoreThenOffer(reserved, bladesLeft, length)) {
             return null;
         }
         int current = input[offset];
